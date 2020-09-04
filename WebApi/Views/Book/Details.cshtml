@@ -1,0 +1,105 @@
+﻿@model BookUpload
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Book</h2>
+
+<main>
+
+    <form class="row" role="form" enctype="multipart/form-data" asp-action="Details" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="col-5 text-center">
+            <div class="cover">
+                <img class="book img-fluid"
+                     id="coverImg"
+                     src="/Book/CoverImage/@Model.Id"
+                     alt="@Model.Title"
+                     data-id="@Model.Id" />
+
+                <p class="py-3">
+                    <label class="btn btn-outline-dark">
+                        Change Cover Imgage
+                        <input id="CoverImage" asp-for="@Model.CoverImage" type="file" class="d-none" accept="image/x-png" />
+                    </label>
+                </p>
+            </div>
+        </div>
+
+        <div class="col-5">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Subtitle" class="control-label"></label>
+                <input asp-for="Subtitle" class="form-control" />
+                <span asp-validation-for="Subtitle" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Resume" class="control-label"></label>
+                <textarea asp-for="Resume" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Resume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Author" class="control-label"></label>
+                <input asp-for="Author" class="form-control" />
+                <span asp-validation-for="Author" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="List" class="control-label"></label>
+                <select asp-for="List" class="form-control">
+                    @foreach (var type in Enum.GetValues(typeof(WebAPI.Model.TypeReadingList)))
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+                <span asp-validation-for="CoverImage" class="text-danger"></span>
+            </div>
+
+            <footer class="form-group">
+                <button class="btn btn-outline-success">SAVE</button>
+                <button id="btnExclude" class="btn btn-outline-danger">DELETE</button>
+            </footer>
+        </div>
+
+    </form>
+
+</main>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('#btnExclude').click(function () {
+                $('form').attr('action', '/Book/Remove');
+                $('form').submit();
+            });
+            $('#CoverImage').change(function () {
+                var input = this;
+                var url = $(this).val();
+                var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+                if (input.files && input.files[0] && (ext == "png")) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        console.log("alert!");
+                        $('#coverImg').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+                else {
+                    $('#coverImg').attr('src', '~/images/covers/empty-cover.png');
+                }
+            });
+        });
+    </script>
+}

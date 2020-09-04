@@ -1,0 +1,7 @@
+﻿@model BookApi
+
+<li class="list-group-item my-3 mx-5 border-0">
+    <a asp-action="Details" asp-controller="Book" asp-route-id="@Model.Id">
+        <img class="book img-fluid" src="/Book/CoverImage/@Model.Id" alt="@Model.Title" data-id="@Model.Id">
+    </a>
+</li>

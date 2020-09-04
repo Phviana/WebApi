@@ -1,0 +1,49 @@
+﻿@model HomeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <a asp-action="New" asp-controller="Book" id="new-floating">
+        <p class="plus">+</p>
+    </a>
+
+    <div class="row">
+        <div class="card col-md-6 col-lg-3 reading-list" id="toRead-column" data-id="toRead">
+            <h4 class="card-header">To Read</h4>
+            <ul class="">
+                @foreach (var book in Model.ToRead)
+                {
+                    <partial name="~/Views/Shared/Book.cshtml" model="book" />
+                }
+            </ul>
+        </div>
+        <!--end #column-toRead-->
+
+        <div class="card col-md-6 col-lg-3 reading-list" id="reading-column" data-id="reading">
+            <h4 class="card-header">Reading</h4>
+            <ul class="list-group">
+                @foreach (var book in Model.Reading)
+                {
+                    <partial name="~/Views/Shared/Book.cshtml" model="book" />
+                }
+            </ul>
+        </div>
+        <!--end #reading-column-->
+
+        <div class="card col-md-6 col-lg-3 reading-list" id="read-column" data-id="read">
+            <h4 class="card-header">Read</h4>
+            <ul class="">
+                @foreach (var book in Model.Read)
+                {
+                    <partial name="~/Views/Shared/Book.cshtml" model="book" />
+                }
+            </ul>
+        </div>
+        <!--end #read-column-->
+    </div>
+
+
+
+</main>
